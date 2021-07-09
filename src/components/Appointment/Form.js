@@ -36,7 +36,7 @@ const Form = function (props) {
           interviewers={props.interviewers}
           interviewer={interviewer}
           onChange={props.onSave}
-          setInterviewer={setInterviewer}
+          setInterviewer={setInterviewer}ok
         />
       </section>
       <section className="appointment__card-right">

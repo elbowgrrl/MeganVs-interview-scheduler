@@ -1,6 +1,7 @@
 import React from "react";
 
 const Show = function (props) {
+  // console.log("props", props)
   //   student:String eg. "Lydia Miller-Jones"
   // interviewer:Object we can use the interview object that already exists in stories/index.js for this
   // onEdit:Function to be called when the user clicks the Edit button
