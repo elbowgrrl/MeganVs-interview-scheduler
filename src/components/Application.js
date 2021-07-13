@@ -13,6 +13,12 @@ import {
 export default function Application(props) {
   //set initial state for app
 
+  // const {
+  //   state,
+  //   setDay,
+
+  // }
+
   //move state function to custom hook
   const [state, setState] = useState({
     day: "Monday",
@@ -24,6 +30,8 @@ export default function Application(props) {
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
+
+  //move to custom hook
   const setDay = (day) => setState({ ...state, day });
 
   //move to custom hook
@@ -52,7 +60,8 @@ export default function Application(props) {
     let appointment = { ...state.appointments, [id]: null };
     // console.log("in deleteInterview", appointment);
 
-    return axios.delete(`/api/appointments/${id}`, { appointment }).then(() => {
+    return axios.delete(`/api/appointments/${id}`, { appointment })
+    .then(() => {
       setState({ ...state, appointment });
     });
   }
