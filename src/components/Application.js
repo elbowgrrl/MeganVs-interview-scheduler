@@ -13,6 +13,7 @@ import {
 export default function Application(props) {
   //set initial state for app
 
+  //move state function to custom hook
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -21,6 +22,11 @@ export default function Application(props) {
   });
   // console.log("on render current state", state);
 
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day);
+  const setDay = (day) => setState({ ...state, day });
+
+  //move to custom hook
   //make api requests to use data ffrom endpoints for state
   useEffect(() => {
     Promise.all([
@@ -39,19 +45,19 @@ export default function Application(props) {
     });
   }, []);
 
+  //move to custom hook
   function deleteInterview(id) {
     //the id that gets passed to this function is a number
     //id is an appmnt id in state at this level
     let appointment = { ...state.appointments, [id]: null };
-    console.log("in deleteInterview", appointment);
+    // console.log("in deleteInterview", appointment);
 
-    return axios.delete(`/api/appointments/${id}`, { appointment })
-    .then(() => {
+    return axios.delete(`/api/appointments/${id}`, { appointment }).then(() => {
       setState({ ...state, appointment });
     });
-    
-  };
+  }
 
+  //move to custom hook
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -65,13 +71,7 @@ export default function Application(props) {
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
       setState({ ...state, appointments });
     });
-  };
-
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
-  const interviewers = getInterviewersForDay(state, state.day);
-
-  // console.log("daily appmts", dailyAppointments)
-  const setDay = (day) => setState({ ...state, day });
+  }
 
   const list = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
@@ -117,17 +117,6 @@ export default function Application(props) {
       </section>
     </main>
   );
-}
+};
 
-// const useVisualMode = function(initial) {
-//   const [history, setHistory] = useState([initial])
 
-//   const transition = function(newMode) {
-//     setHistory([...history, newMode])
-//   }
-//   const back = function {
-//     //didn't get this part
-//   }
-//   const mode = history[history.length]
-//   return {mode, transition}
-// }

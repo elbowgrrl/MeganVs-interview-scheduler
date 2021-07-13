@@ -6,9 +6,9 @@ import Empty from "components/Appointment/Empty.js";
 import Form from "components/Appointment/Form.js";
 import Confirm from "components/Appointment/Confirm.js";
 import Status from "components/Appointment/Status";
+import Error from "components/Appointment/Error";
 import useVisualMode from "hooks/useVisualMode";
 // import { getInterviewersForDay } from "helpers/selectors";
-
 
 const Appointment = function (props) {
   const EMPTY = "EMPTY";
@@ -16,31 +16,46 @@ const Appointment = function (props) {
   const CREATE = "CREATE";
   const SAVING = "SAVING";
   const CONFIRM = "CONFIRM";
- 
-  const { mode, transition, back } = useVisualMode(props.interview ? SHOW : EMPTY);
+  const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
+  const DELETING = "DELETING";
+
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
 
   function save(name, interviewer) {
     transition(SAVING);
     const interview = {
       student: name,
-      interviewer
+      interviewer,
     };
-  
-    props.bookInterview(props.id, interview)
-      .then(() => transition(SHOW));
+
+    props
+    .bookInterview(props.id, interview)
+    .then(() => transition(SHOW))
+    .catch(() => transition(ERROR_SAVE, true));
   };
   // console.log("props", props)
 
   function showConfirm(id) {
-    console.log("in showconfirm", id)
+    console.log("in showconfirm", id);
     transition(CONFIRM);
-  }
+  };
+
+  function showEdit() {
+    transition(EDIT);
+  };
 
   function deleteApt(id) {
-    console.log("deleteApt", id)
-    props.onDelete(id).then(() => transition(EMPTY));
-    
+    transition(DELETING, true);
+    // console.log("deleteApt", id);
+    props.onDelete(id)
+    .then(() => transition(SHOW))
+    .catch(() => transition(ERROR_DELETE, true));
   };
+
   // console.log("props.id index", props.id)
   return (
     <>
@@ -53,12 +68,33 @@ const Appointment = function (props) {
             student={props.interview.student}
             interviewer={props.interview.interviewer}
             onDelete={showConfirm}
+            onEdit={showEdit}
             id={props.id}
           />
         )}
-        {mode === CREATE && <Form onSave={save} onCancel={back} interviewers={props.interviewers}/>}
-        {mode === CONFIRM && <Confirm onCancel={back} onConfirm={() => deleteApt(props.id)}/>}
-        
+        {mode === CREATE && (
+          <Form
+            onSave={save}
+            onCancel={back}
+            interviewers={props.interviewers}
+          />
+        )}
+        {mode === CONFIRM && (
+          <Confirm onCancel={back} onConfirm={() => deleteApt(props.id)} />
+        )}
+        {
+          mode === EDIT && (
+            <Form
+              student={props.interview.student}
+              interviewers={props.interviewers}
+              onSave={save}
+              onCancel={back}
+            />
+          ) /* pass different props for show view*/
+        }
+        {mode === ERROR_SAVE && (<Error onClose={back}/>)}
+        {mode === ERROR_DELETE && (<Error onClose={back}/>)}
+        {mode === DELETING && (<Status/>)}
       </article>
     </>
   );
