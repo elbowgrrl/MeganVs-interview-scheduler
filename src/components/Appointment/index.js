@@ -33,28 +33,29 @@ const Appointment = function (props) {
     };
 
     props
-    .bookInterview(props.id, interview)
-    .then(() => transition(SHOW))
-    .catch(() => transition(ERROR_SAVE, true));
-  };
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(() => transition(ERROR_SAVE, true));
+  }
   // console.log("props", props)
 
   function showConfirm(id) {
     console.log("in showconfirm", id);
     transition(CONFIRM);
-  };
+  }
 
   function showEdit() {
     transition(EDIT);
-  };
+  }
 
   function deleteApt(id) {
     transition(DELETING, true);
     // console.log("deleteApt", id);
-    props.onDelete(id)
-    .then(() => transition(SHOW))
-    .catch(() => transition(ERROR_DELETE, true));
-  };
+    props
+      .onDelete(id)
+      .then(() => transition(EMPTY))
+      .catch(() => transition(ERROR_DELETE, true));
+  }
 
   // console.log("props.id index", props.id)
   return (
@@ -92,9 +93,9 @@ const Appointment = function (props) {
             />
           ) /* pass different props for show view*/
         }
-        {mode === ERROR_SAVE && (<Error onClose={back}/>)}
-        {mode === ERROR_DELETE && (<Error onClose={back}/>)}
-        {mode === DELETING && (<Status/>)}
+        {mode === ERROR_SAVE && <Error onClose={back} />}
+        {mode === ERROR_DELETE && <Error onClose={back} />}
+        {mode === DELETING && <Status />}
       </article>
     </>
   );
