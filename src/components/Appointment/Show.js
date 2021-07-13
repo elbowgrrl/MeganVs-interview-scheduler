@@ -6,7 +6,7 @@ const Show = function (props) {
   // interviewer:Object we can use the interview object that already exists in stories/index.js for this
   // onEdit:Function to be called when the user clicks the Edit button
   // onDelete:Function to be called when the user clicks the Delete button
-
+// console.log("props.id", props.id)
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left">
@@ -25,7 +25,7 @@ const Show = function (props) {
             alt="Edit"
           />
           <img
-            onClick={props.onDelete}
+            onClick={() => props.onDelete(props.id)}
             className="appointment__actions-button"
             src="images/trash.png"
             alt="Delete"

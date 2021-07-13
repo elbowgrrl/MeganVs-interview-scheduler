@@ -4,6 +4,7 @@ import Header from "components/Appointment/Header.js";
 import Show from "components/Appointment/Show.js";
 import Empty from "components/Appointment/Empty.js";
 import Form from "components/Appointment/Form.js";
+// import Confirm from "components/Appointment/Confirm.js";
 import Status from "components/Appointment/Status";
 import useVisualMode from "hooks/useVisualMode";
 // import { getInterviewersForDay } from "helpers/selectors";
@@ -14,6 +15,7 @@ const Appointment = function (props) {
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
+  const CONFIRM = "CONFIRM";
  
   const { mode, transition, back } = useVisualMode(props.interview ? SHOW : EMPTY);
 
@@ -23,14 +25,19 @@ const Appointment = function (props) {
       student: name,
       interviewer
     };
-  // console.log("interview", interview)
-    props.bookInterview(props.id, interview)//with a then
-      .then(() => transition(SHOW))
+  
+    props.bookInterview(props.id, interview)
+      .then(() => transition(SHOW));
+  };
+  // console.log("props", props)
 
-    // transition(SHOW); // Make me a callback
-  }
-  
-  
+  function deleteApt(id) {
+    console.log("deleteApt", id)
+    props.onDelete(id).then(() => transition(EMPTY));
+    
+
+  };
+  // console.log("props.id index", props.id)
   return (
     <>
       <article className="appointment">
@@ -41,9 +48,12 @@ const Appointment = function (props) {
           <Show
             student={props.interview.student}
             interviewer={props.interview.interviewer}
+            onDelete={deleteApt}
+            id={props.id}
           />
         )}
         {mode === CREATE && <Form onSave={save} onCancel={back} interviewers={props.interviewers}/>}
+        
       </article>
     </>
   );
