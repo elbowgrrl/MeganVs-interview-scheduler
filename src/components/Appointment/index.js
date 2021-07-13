@@ -4,7 +4,7 @@ import Header from "components/Appointment/Header.js";
 import Show from "components/Appointment/Show.js";
 import Empty from "components/Appointment/Empty.js";
 import Form from "components/Appointment/Form.js";
-// import Confirm from "components/Appointment/Confirm.js";
+import Confirm from "components/Appointment/Confirm.js";
 import Status from "components/Appointment/Status";
 import useVisualMode from "hooks/useVisualMode";
 // import { getInterviewersForDay } from "helpers/selectors";
@@ -31,11 +31,15 @@ const Appointment = function (props) {
   };
   // console.log("props", props)
 
+  function showConfirm(id) {
+    console.log("in showconfirm", id)
+    transition(CONFIRM);
+  }
+
   function deleteApt(id) {
     console.log("deleteApt", id)
     props.onDelete(id).then(() => transition(EMPTY));
     
-
   };
   // console.log("props.id index", props.id)
   return (
@@ -48,11 +52,12 @@ const Appointment = function (props) {
           <Show
             student={props.interview.student}
             interviewer={props.interview.interviewer}
-            onDelete={deleteApt}
+            onDelete={showConfirm}
             id={props.id}
           />
         )}
         {mode === CREATE && <Form onSave={save} onCancel={back} interviewers={props.interviewers}/>}
+        {mode === CONFIRM && <Confirm onCancel={back} onConfirm={() => deleteApt(props.id)}/>}
         
       </article>
     </>
