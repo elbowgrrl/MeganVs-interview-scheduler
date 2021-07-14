@@ -48,13 +48,13 @@ const Appointment = function (props) {
     transition(EDIT);
   }
 
-  function deleteApt(id) {
+  function deleteApt() {
     transition(DELETING, true);
     // console.log("deleteApt", id);
-    props
-      .onDelete(id)
+    props.onDelete(props.id)
       .then(() => transition(EMPTY))
-      .catch(() => transition(ERROR_DELETE, true));
+      .catch((err) => {transition(ERROR_DELETE, true);
+         console.log("error", err)})
   }
 
   // console.log("props.id index", props.id)
@@ -81,19 +81,17 @@ const Appointment = function (props) {
           />
         )}
         {mode === CONFIRM && (
-          <Confirm onCancel={back} onConfirm={() => deleteApt(props.id)} />
+          <Confirm onCancel={back} onConfirm={deleteApt} />
         )}
-        {
-          mode === EDIT && (
-            <Form
-              name={props.interview.student}
-              interviewers={props.interviewers}
-              interviewer={props.interview.interviewer.id}
-              onSave={save}
-              onCancel={back}
-            />
-          ) /* pass different props for show view*/
-        }
+        {mode === EDIT && (
+          <Form
+            name={props.interview.student}
+            interviewers={props.interviewers}
+            interviewer={props.interview.interviewer.id}
+            onSave={save}
+            onCancel={back}
+          />
+        )}
         {mode === ERROR_SAVE && <Error onClose={back} />}
         {mode === ERROR_DELETE && <Error onClose={back} />}
         {mode === DELETING && <Status />}

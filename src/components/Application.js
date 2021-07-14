@@ -19,10 +19,18 @@ export default function Application(props) {
     bookInterview
   } = useApplicationData();
 
+
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
   const list = dailyAppointments.map((appointment) => {
   const interview = getInterview(state, appointment.interview);
+
+        // // this is where spots lives at this level
+        // console.log("spots", state.days[0].spots);
+
+        // //the number of spots is the number of appointments in any given day
+        // // that are not null
+        // console.log("appointments", state.appointments)
 
     return (
       <Appointment
