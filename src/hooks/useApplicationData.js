@@ -8,7 +8,7 @@ const useApplicationData = function () {
     appointments: {},
     interviewers: {},
   });
-  console.log("on render current state", state);
+  // console.log("on render current state", state);
 
   const setDay = (day) => setState({ ...state, day });
 
@@ -78,10 +78,8 @@ const useApplicationData = function () {
 
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => {
-        console.log("before", state.days[0].spots);
         const days = updateSpots(state.day, state.days, appointments);
         setState({ ...state, appointments, days });
-        console.log("after", state.days[0].spots);
       });
   }
 

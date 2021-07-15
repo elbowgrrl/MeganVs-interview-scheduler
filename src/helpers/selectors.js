@@ -16,7 +16,7 @@ export function getAppointmentsForDay(state, day) {
 
 export function getInterview(state, interview) {
   if (!interview) {
-    return }
+    return null };
   //grab id of interview object
   const id = interview.interviewer;
   //match with state.interviewers at key

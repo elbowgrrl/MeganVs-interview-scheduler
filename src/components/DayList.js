@@ -2,9 +2,9 @@ import React from "react";
 import DayListItem from "components/DayListItem";
 
 const DayList = function(props) {
-console.log("props in Day List", props);
+
   return (
-    <ul>
+    <ul data-testid="day">
       { props.days.map(day => (
       <DayListItem 
           key= { day.id }

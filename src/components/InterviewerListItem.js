@@ -21,6 +21,7 @@ const InterviewerListItem = function (props) {
         className="interviewers__item-image"
         src={props.avatar}
         alt={props.name}
+        data-testid="interview avatar"
       />
       {props.selected && props.name}
     </li>

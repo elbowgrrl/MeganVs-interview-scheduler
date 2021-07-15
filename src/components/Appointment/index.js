@@ -36,17 +36,23 @@ const Appointment = function (props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(() => transition(ERROR_SAVE, true));
-  }
-  // console.log("props", props)
+  };
 
   function showConfirm(id) {
-    console.log("in showconfirm", id);
     transition(CONFIRM);
-  }
+  };
 
   function showEdit() {
     transition(EDIT);
-  }
+  };
+
+  function showEmpty() {
+    transition(EMPTY);
+  };
+
+  function showShow() {
+    transition(SHOW);
+  };
 
   function deleteApt() {
     transition(DELETING, true);
@@ -60,10 +66,10 @@ const Appointment = function (props) {
   // console.log("props.id index", props.id)
   return (
     <>
-      <article className="appointment">
+      <article className="appointment" data-testid="appointment">
         <Header time={props.time}></Header>
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-        {mode === SAVING && <Status message="saving" />}
+        {mode === SAVING && <Status message="Saving" />}
         {mode === SHOW && (
           <Show
             student={props.interview.student}
@@ -78,6 +84,7 @@ const Appointment = function (props) {
             onSave={save}
             onCancel={back}
             interviewers={props.interviewers}
+            data-testid="interviewer avatar"
           />
         )}
         {mode === CONFIRM && (
@@ -92,9 +99,9 @@ const Appointment = function (props) {
             onCancel={back}
           />
         )}
-        {mode === ERROR_SAVE && <Error onClose={back} />}
-        {mode === ERROR_DELETE && <Error onClose={back} />}
-        {mode === DELETING && <Status />}
+        {mode === ERROR_SAVE && <Error message={"Could not save"} onClose={showEmpty} />}
+        {mode === ERROR_DELETE && <Error message={"Could not delete"} onClose={showShow} />}
+        {mode === DELETING && <Status message="Deleting"/>}
       </article>
     </>
   );
