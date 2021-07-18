@@ -19,7 +19,6 @@ const formatSpots = function (spots) {
 };
 
 const DayListItem = function (props) {
-  // console.log("daylistitem", props);
   const dayClass = classnames(
     "day-list__item",
     { "day-list__item--selected": props.selected },

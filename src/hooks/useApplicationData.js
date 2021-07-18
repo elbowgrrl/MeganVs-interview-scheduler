@@ -8,7 +8,6 @@ const useApplicationData = function () {
     appointments: {},
     interviewers: {},
   });
-  // console.log("on render current state", state);
 
   const setDay = (day) => setState({ ...state, day });
 
@@ -23,14 +22,13 @@ const useApplicationData = function () {
   };
 
   const updateSpots = (dayName, days, appointments) => {
-
     const index = days.findIndex((day) => day.name === dayName);
     const day = days[index];
 
     const spots = getSpotsForDay(day, appointments);
 
     const newDays = [...days];
-    newDays[index] = {...day, spots};
+    newDays[index] = { ...day, spots };
     return newDays;
   };
 
@@ -53,15 +51,12 @@ const useApplicationData = function () {
   }, []);
 
   function deleteInterview(id) {
-    //the id that gets passed to this function is a number
-    //id is an appmnt id in state at this level
     const appointment = { ...state.appointments[id], interview: null };
 
     const appointments = { ...state.appointments, [id]: appointment };
 
-    return axios.delete(`/api/appointments/${id}`)
-      .then(() => {
-      const days = updateSpots(state.day, state.days, appointments)
+    return axios.delete(`/api/appointments/${id}`).then(() => {
+      const days = updateSpots(state.day, state.days, appointments);
       setState({ ...state, days, appointments });
     });
   }
@@ -76,11 +71,10 @@ const useApplicationData = function () {
       [id]: appointment,
     };
 
-    return axios.put(`/api/appointments/${id}`, { interview })
-      .then(() => {
-        const days = updateSpots(state.day, state.days, appointments);
-        setState({ ...state, appointments, days });
-      });
+    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+      const days = updateSpots(state.day, state.days, appointments);
+      setState({ ...state, appointments, days });
+    });
   }
 
   return { state, setDay, deleteInterview, bookInterview };

@@ -168,7 +168,7 @@ describe("Application", () => {
 
        fireEvent.click(queryByText(appointment, "Confirm"));
 
-       await waitForElement(() => getByText(appointment, "Could not delete"));
+       await waitForElement(() => getByText(appointment, "Could not delete").toBeInTheDocument());
 
   });
 

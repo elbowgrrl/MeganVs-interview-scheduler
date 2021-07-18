@@ -36,34 +36,38 @@ const Appointment = function (props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(() => transition(ERROR_SAVE, true));
-  };
+  }
+
+  //When there is time, refactor "back" function in UseVisualMode to eliminate some of the below functions
+  //refactor any remaining helpers into seperate file
 
   function showConfirm(id) {
     transition(CONFIRM);
-  };
+  }
 
   function showEdit() {
     transition(EDIT);
-  };
+  }
 
   function showEmpty() {
     transition(EMPTY);
-  };
+  }
 
   function showShow() {
     transition(SHOW);
-  };
+  }
 
   function deleteApt() {
     transition(DELETING, true);
-    // console.log("deleteApt", id);
-    props.onDelete(props.id)
+    props
+      .onDelete(props.id)
       .then(() => transition(EMPTY))
-      .catch((err) => {transition(ERROR_DELETE, true);
-         console.log("error", err)})
+      .catch((err) => {
+        transition(ERROR_DELETE, true);
+        console.log("error", err);
+      });
   }
 
-  // console.log("props.id index", props.id)
   return (
     <>
       <article className="appointment" data-testid="appointment">
@@ -87,9 +91,7 @@ const Appointment = function (props) {
             data-testid="interviewer avatar"
           />
         )}
-        {mode === CONFIRM && (
-          <Confirm onCancel={back} onConfirm={deleteApt} />
-        )}
+        {mode === CONFIRM && <Confirm onCancel={back} onConfirm={deleteApt} />}
         {mode === EDIT && (
           <Form
             name={props.interview.student}
@@ -99,9 +101,13 @@ const Appointment = function (props) {
             onCancel={back}
           />
         )}
-        {mode === ERROR_SAVE && <Error message={"Could not save"} onClose={showEmpty} />}
-        {mode === ERROR_DELETE && <Error message={"Could not delete"} onClose={showShow} />}
-        {mode === DELETING && <Status message="Deleting"/>}
+        {mode === ERROR_SAVE && (
+          <Error message={"Could not save"} onClose={showEmpty} />
+        )}
+        {mode === ERROR_DELETE && (
+          <Error message={"Could not delete"} onClose={showShow} />
+        )}
+        {mode === DELETING && <Status message="Deleting" />}
       </article>
     </>
   );

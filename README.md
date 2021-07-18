@@ -4,6 +4,17 @@ A demo application which is a colution for students scheduling interviews. Build
 
 React with SCSS and PSQL. Developed with Storybook and tested with Jest and Cypress.
 
+
+# Screenshots
+
+![Appointments](https://github.com/elbowgrrl/MeganVs-interview-scheduler/blob/master/docs/Interview%20Scheduler%20appointments.png)
+
+![Form](https://github.com/elbowgrrl/MeganVs-interview-scheduler/blob/master/docs/Interview%20Scheduler%20Form.png)
+
+![Delete](https://github.com/elbowgrrl/MeganVs-interview-scheduler/blob/master/docs/Interview%20Scheduler%20Delete.png)
+
+![Test Coverage](https://github.com/elbowgrrl/MeganVs-interview-scheduler/blob/master/docs/Interview%20Scheduler%20Test%20Coverage.png)
+
 ## Setup
 
 Install dependencies with `npm install`.

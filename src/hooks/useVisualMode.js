@@ -8,16 +8,16 @@ const useVisualMode = function (initial) {
     setHistory((previous) => {
       if (replace) {
         return [...previous.slice(-1), newMode];
-      };
+      }
 
       return [...previous, newMode];
     });
   };
-  
+
   const back = function () {
     if (history.length < 2) {
       return;
-    };
+    }
     setHistory((previous) => {
       return [...previous.slice(0, previous.length - 1)];
     });

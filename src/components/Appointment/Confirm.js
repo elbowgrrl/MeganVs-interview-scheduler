@@ -8,7 +8,6 @@ const Confirm = function(props) {
   <section className="appointment__actions">
     <Button onClick={props.onCancel} danger>Cancel</Button>
     <Button onClick={props.onConfirm} danger>Confirm</Button>
-    {/* onClick={() => props.onDelete(props.id)} */}
   </section>
 </main>
   );
