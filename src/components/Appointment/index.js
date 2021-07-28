@@ -20,6 +20,7 @@ const Appointment = function (props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
   const DELETING = "DELETING";
+  const ERROR_EDIT = "ERROR_EDIT";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -47,10 +48,6 @@ const Appointment = function (props) {
 
   function showEdit() {
     transition(EDIT);
-  }
-
-  function showEmpty() {
-    transition(EMPTY);
   }
 
   function showShow() {
@@ -102,10 +99,13 @@ const Appointment = function (props) {
           />
         )}
         {mode === ERROR_SAVE && (
-          <Error message={"Could not save"} onClose={showEmpty} />
+          <Error message={"Could not save"} onClose={() => {transition(EMPTY)}} />
         )}
         {mode === ERROR_DELETE && (
           <Error message={"Could not delete"} onClose={showShow} />
+        )}
+        {mode === ERROR_EDIT && (
+          <Error message={"Could not save"} onClose={() => {transition(EDIT)}}/>
         )}
         {mode === DELETING && <Status message="Deleting" />}
       </article>

@@ -19,9 +19,13 @@ const useVisualMode = function (initial) {
       return;
     }
     setHistory((previous) => {
+      const newHistory = [...previous];
+      newHistory.pop();
+      
       return [...previous.slice(0, previous.length - 1)];
     });
   };
+
   const mode = history.slice(-1)[0];
 
   return { mode, transition, back };
