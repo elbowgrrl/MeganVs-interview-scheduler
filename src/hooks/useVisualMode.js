@@ -7,7 +7,7 @@ const useVisualMode = function (initial) {
   const transition = function (newMode, replace = false) {
     setHistory((previous) => {
       if (replace) {
-        return [...previous.slice(-1), newMode];
+        return [...previous.slice(0, previous.length - 1), newMode];
       }
 
       return [...previous, newMode];
@@ -15,12 +15,15 @@ const useVisualMode = function (initial) {
   };
 
   const back = function () {
-    if (history.length < 2) {
-      return;
-    }
+
     setHistory((previous) => {
-      const newHistory = [...previous];
-      newHistory.pop();
+
+      if (previous.length < 2) {
+        return previous;
+      }
+
+      // const newHistory = [...previous];
+      // newHistory.pop();
       
       return [...previous.slice(0, previous.length - 1)];
     });

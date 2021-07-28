@@ -22,13 +22,15 @@ const Appointment = function (props) {
   const DELETING = "DELETING";
   const ERROR_EDIT = "ERROR_EDIT";
 
+  const interview = props.interview;
+
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
   function save(name, interviewer) {
     transition(SAVING);
-    const interview = {
+      interview = {
       student: name,
       interviewer,
     };
@@ -73,8 +75,8 @@ const Appointment = function (props) {
         {mode === SAVING && <Status message="Saving" />}
         {mode === SHOW && (
           <Show
-            student={props.interview.student}
-            interviewer={props.interview.interviewer}
+            student={interview.student}
+            interviewer={interview.interviewer}
             onDelete={showConfirm}
             onEdit={showEdit}
             id={props.id}
@@ -91,21 +93,21 @@ const Appointment = function (props) {
         {mode === CONFIRM && <Confirm onCancel={back} onConfirm={deleteApt} />}
         {mode === EDIT && (
           <Form
-            name={props.interview.student}
+            name={interview.student}
             interviewers={props.interviewers}
-            interviewer={props.interview.interviewer.id}
+            interviewer={interview.interviewer.id}
             onSave={save}
             onCancel={back}
           />
         )}
         {mode === ERROR_SAVE && (
-          <Error message={"Could not save"} onClose={() => {transition(EMPTY)}} />
+          <Error message={"Could not save"} onClose={back} />
         )}
         {mode === ERROR_DELETE && (
           <Error message={"Could not delete"} onClose={showShow} />
         )}
         {mode === ERROR_EDIT && (
-          <Error message={"Could not save"} onClose={() => {transition(EDIT)}}/>
+          <Error message={"Could not save"} onClose={back}/>
         )}
         {mode === DELETING && <Status message="Deleting" />}
       </article>
