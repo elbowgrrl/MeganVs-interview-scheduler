@@ -22,7 +22,7 @@ const Appointment = function (props) {
   const DELETING = "DELETING";
   const ERROR_EDIT = "ERROR_EDIT";
 
-  const interview = props.interview;
+  let interview = props.interview;
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
