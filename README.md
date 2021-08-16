@@ -17,7 +17,25 @@ React with SCSS and PSQL. Developed with Storybook and tested with Jest and Cypr
 
 ## Setup
 
+Development API can be found at `https://github.com/elbowgrrl/scheduler-api`
+To set up the API, acquire it locally and follow the instructions in the README.
+
 Install dependencies with `npm install`.
+
+### Dev dependencies: 
+
+  babel/core: ^7.4.3
+  storybook/addon-actions: ^5.0.10
+  storybook/addon-backgrounds: ^5.0.10
+  storybook/addon-links: ^5.0.10
+  storybook/addons: ^5.0.10
+  storybook/react: ^5.0.10
+  testing-library/jest-dom: ^4.0.0
+  testing-library/react: ^8.0.9
+  babel-loader: ^8.0.5
+  node-sass: ^4.14.0
+  prop-types: ^15.7.2
+    
 
 ## Running Webpack Development Server
 
