@@ -23,7 +23,7 @@ const Appointment = function (props) {
 
   let interview = props.interview;
 
-  //switches between views using custom hook from /hooks
+  //switches between appointment views using custom hook from /hooks
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -39,7 +39,18 @@ const Appointment = function (props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(() => transition(ERROR_SAVE, true));
-  }
+  };
+
+  const destroyApt = function() {
+    transition(DELETING, true);
+    props
+      .onDelete(props.id)
+      .then(() => transition(EMPTY))
+      .catch((err) => {
+        transition(ERROR_DELETE, true);
+        console.log("error", err);
+      });
+  };
 
   //When there is time, refactor "back" function in UseVisualMode to eliminate some of the below functions
   //refactor any remaining helpers into seperate file
@@ -56,16 +67,7 @@ const Appointment = function (props) {
     transition(SHOW);
   }
 
-  function deleteApt() {
-    transition(DELETING, true);
-    props
-      .onDelete(props.id)
-      .then(() => transition(EMPTY))
-      .catch((err) => {
-        transition(ERROR_DELETE, true);
-        console.log("error", err);
-      });
-  }
+
 
   return (
     <>
@@ -90,7 +92,7 @@ const Appointment = function (props) {
             data-testid="interviewer avatar"
           />
         )}
-        {mode === CONFIRM && <Confirm onCancel={back} onConfirm={deleteApt} />}
+        {mode === CONFIRM && <Confirm onCancel={back} onConfirm={destroyApt} />}
         {mode === EDIT && (
           <Form
             name={interview.student}
