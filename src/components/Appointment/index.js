@@ -8,7 +8,6 @@ import Confirm from "components/Appointment/Confirm.js";
 import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
 import useVisualMode from "hooks/useVisualMode";
-// import { getInterviewersForDay } from "helpers/selectors";
 
 const Appointment = function (props) {
   const EMPTY = "EMPTY";
@@ -24,6 +23,7 @@ const Appointment = function (props) {
 
   let interview = props.interview;
 
+  //switches between views using custom hook from /hooks
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
