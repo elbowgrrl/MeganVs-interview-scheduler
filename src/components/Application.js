@@ -11,20 +11,23 @@ import {
 import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
-  const { state, setDay, deleteInterview, bookInterview } =
-    useApplicationData();
+  const {
+    state, 
+    setDay, 
+    deleteInterview, 
+    bookInterview 
+   } = useApplicationData();
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
-  const list = dailyAppointments.map((appointment) => {
-    const interview = getInterview(state, appointment.interview);
 
+  const list = dailyAppointments.map((appointment) => {
     return (
       <Appointment
         key={appointment.id}
         id={appointment.id}
         time={appointment.time}
-        interview={interview}
+        interview={getInterview(state, appointment.interview)}
         interviewers={interviewers}
         bookInterview={bookInterview}
         onDelete={deleteInterview}
