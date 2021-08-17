@@ -28,9 +28,9 @@ const Appointment = function (props) {
     props.interview ? SHOW : EMPTY
   );
 
-  function save(name, interviewer) {
+  function saveApt(name, interviewer) {
     transition(SAVING);
-      interview = {
+    interview = {
       student: name,
       interviewer,
     };
@@ -39,9 +39,9 @@ const Appointment = function (props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(() => transition(ERROR_SAVE, true));
-  };
+  }
 
-  const destroyApt = function() {
+  const destroyApt = function () {
     transition(DELETING, true);
     props
       .onDelete(props.id)
@@ -52,23 +52,8 @@ const Appointment = function (props) {
       });
   };
 
-  //When there is time, refactor "back" function in UseVisualMode to eliminate some of the below functions
-  //refactor any remaining helpers into seperate file
-
-  function showConfirm(id) {
-    transition(CONFIRM);
-  }
-
-  function showEdit() {
-    transition(EDIT);
-  }
-
-  function showShow() {
-    transition(SHOW);
-  }
-
-
-
+  //{mode === VIEWNAME} syntax switches between appointment views.
+  //ERROR views can be tested with the associated API in error mode "npm run error"
   return (
     <>
       <article className="appointment" data-testid="appointment">
@@ -79,14 +64,18 @@ const Appointment = function (props) {
           <Show
             student={interview.student}
             interviewer={interview.interviewer}
-            onDelete={showConfirm}
-            onEdit={showEdit}
+            onDelete={() => {
+              transition(CONFIRM);
+            }}
+            onEdit={() => {
+              transition(EDIT);
+            }}
             id={props.id}
           />
         )}
         {mode === CREATE && (
           <Form
-            onSave={save}
+            onSave={saveApt}
             onCancel={back}
             interviewers={props.interviewers}
             data-testid="interviewer avatar"
@@ -98,7 +87,7 @@ const Appointment = function (props) {
             name={interview.student}
             interviewers={props.interviewers}
             interviewer={interview.interviewer.id}
-            onSave={save}
+            onSave={saveApt}
             onCancel={back}
           />
         )}
@@ -106,10 +95,15 @@ const Appointment = function (props) {
           <Error message={"Could not save"} onClose={back} />
         )}
         {mode === ERROR_DELETE && (
-          <Error message={"Could not delete"} onClose={showShow} />
+          <Error
+            message={"Could not delete"}
+            onClose={() => {
+              transition(SHOW);
+            }}
+          />
         )}
         {mode === ERROR_EDIT && (
-          <Error message={"Could not save"} onClose={back}/>
+          <Error message={"Could not save"} onClose={back} />
         )}
         {mode === DELETING && <Status message="Deleting" />}
       </article>
