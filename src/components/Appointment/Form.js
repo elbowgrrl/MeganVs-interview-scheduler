@@ -7,15 +7,10 @@ const Form = function (props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
 
-  //If time, refactor helper functions to seperate file
-
-  const reset = function () {
+  //Helper functions to validate and cancel appointments
+  const cancel = function () {
     setName("");
     setInterviewer(null);
-  };
-
-  const cancel = function () {
-    reset();
     props.onCancel();
   };
 
@@ -23,7 +18,7 @@ const Form = function (props) {
     if (name === "" || !interviewer) {
       setError("Please enter name and select and interviewer");
       return;
-    } 
+    }
     setError("");
     props.onSave(name, interviewer);
   }

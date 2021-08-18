@@ -16,17 +16,17 @@ export function getAppointmentsForDay(state, day) {
 
 export function getInterview(state, interview) {
   if (!interview) {
-    return null };
+    return null;
+  }
   //grab id of interview object
   const id = interview.interviewer;
   //match with state.interviewers at key
   const interviewer = state.interviewers[id];
 
-  const result = { ...interview, interviewer }
-    
+  const result = { ...interview, interviewer };
+
   return result;
 }
-
 
 export function getInterviewersForDay(state, day) {
   const results = [];

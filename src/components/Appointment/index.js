@@ -28,6 +28,7 @@ const Appointment = function (props) {
     props.interview ? SHOW : EMPTY
   );
 
+  //Helper functions for appointments 
   function saveApt(name, interviewer) {
     transition(SAVING);
     interview = {
